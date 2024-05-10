@@ -1,0 +1,32 @@
+# Simple Moving Average (SMA) Crossover Strategy for Stock Market Trend Prediction
+
+# Sample historical stock prices
+historical_prices = [50, 55, 60, 65, 70, 75, 80, 85, 90, 95]
+
+# Function to calculate simple moving average (SMA)
+def calculate_sma(prices, window_size):
+    sma = []
+    for i in range(len(prices) - window_size + 1):
+        window = prices[i:i+window_size]
+        sma.append(sum(window) / window_size)
+    return sma
+
+# Function to predict trend using SMA crossover strategy
+def predict_trend(prices, short_window, long_window):
+    short_sma = calculate_sma(prices, short_window)
+    long_sma = calculate_sma(prices, long_window)
+
+    if short_sma[-1] > long_sma[-1] and short_sma[-2] <= long_sma[-2]:
+        return "Buy Signal"
+    elif short_sma[-1] < long_sma[-1] and short_sma[-2] >= long_sma[-2]:
+        return "Sell Signal"
+    else:
+        return "Hold"
+
+# Parameters for SMA windows
+short_window = 3
+long_window = 7
+
+# Predict trend
+prediction = predict_trend(historical_prices, short_window, long_window)
+print("Prediction:", prediction)
